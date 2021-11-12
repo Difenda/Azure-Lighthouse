@@ -45,7 +45,7 @@
             "properties": {
                 "registrationDefinitionName": "[parameters('difendaOfferName')]",
                 "description": "[parameters('difendaOfferDescription')]",
-                "difendaByTenantId": "[parameters('difendaTenantId')]",
+                "difendaTenantId": "[parameters('difendaTenantId')]",
                 "authorizations": "[parameters('delegations')]"
             }
         },
