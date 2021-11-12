@@ -2,37 +2,40 @@
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "mspOfferName": {
+        "MSPOfferName": {
             "type": "string",
             "metadata": {
-                "description": "Specify a unique name for your offer"
+                "description": "Specify a unique name for the MSSP offer. This value will be provided by Difenda during the deployment."
             }
         },
-        "mspOfferDescription": {
+        "MSPOfferDescription": {
             "type": "string",
             "metadata": {
-                "description": "Name of the Managed Service Provider offering"
+                "description": "Name of the Managed Service Provider offering. This value will be provided by Difenda during the deployment."
             }
         },
         "managedByTenantId": {
             "type": "string",
             "metadata": {
-                "description": "Specify the tenant id of the Managed Service Provider"
+                "description": "Specify Difenda's Tenant ID. This value will be provided by Difenda during the deployment."
             }
         },
         "authorizations": {
             "type": "array",
             "metadata": {
-                "description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, a Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory and the principalIdDisplayName is visible to customers."
+                "description": "Specify permissions array. This value will be provided by Difenda during the deployment."
             }
         },
-        "rgName": {
-            "type": "string"
+        "resourceGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "Enter the name of the Resource Group containing the Sentinel resources in the customer tenant."
+            }
         }              
     },
     "variables": {
-        "mspRegistrationName": "[guid(parameters('mspOfferName'))]",
-        "mspAssignmentName": "[guid(parameters('mspOfferName'))]"
+        "mspRegistrationName": "[guid(parameters('MSPOfferName'))]",
+        "mspAssignmentName": "[guid(parameters('MSPOfferName'))]"
     },
     "resources": [
         {
@@ -40,8 +43,8 @@
             "apiVersion": "2019-06-01",
             "name": "[variables('mspRegistrationName')]",
             "properties": {
-                "registrationDefinitionName": "[parameters('mspOfferName')]",
-                "description": "[parameters('mspOfferDescription')]",
+                "registrationDefinitionName": "[parameters('MSPOfferName')]",
+                "description": "[parameters('MSPOfferDescription')]",
                 "managedByTenantId": "[parameters('managedByTenantId')]",
                 "authorizations": "[parameters('authorizations')]"
             }
@@ -50,7 +53,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-05-01",
             "name": "resourceGroupAssignment",
-            "resourceGroup": "[parameters('rgName')]",
+            "resourceGroup": "[parameters('resourceGroupName')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', variables('mspRegistrationName'))]"
             ],
@@ -75,9 +78,9 @@
         }
     ],
     "outputs": {
-        "mspOfferName": {
+        "MSPOfferName": {
             "type": "string",
-            "value": "[concat('Managed by', ' ', parameters('mspOfferName'))]"
+            "value": "[concat('Managed by', ' ', parameters('MSPOfferName'))]"
         },
         "authorizations": {
             "type": "array",
