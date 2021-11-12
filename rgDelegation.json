@@ -14,7 +14,7 @@
                 "description": "Name of the Managed Service Provider offering. This value will be provided by Difenda during the deployment."
             }
         },
-        "difendaByTenantId": {
+        "difendaTenantId": {
             "type": "string",
             "metadata": {
                 "description": "Specify Difenda's Tenant ID. This value will be provided by Difenda during the deployment."
@@ -45,7 +45,7 @@
             "properties": {
                 "registrationDefinitionName": "[parameters('difendaOfferName')]",
                 "description": "[parameters('difendaOfferDescription')]",
-                "difendaByTenantId": "[parameters('difendaByTenantId')]",
+                "difendaByTenantId": "[parameters('difendaTenantId')]",
                 "authorizations": "[parameters('delegations')]"
             }
         },
