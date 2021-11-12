@@ -2,25 +2,25 @@
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "MSPOfferName": {
+        "difendaOfferName": {
             "type": "string",
             "metadata": {
                 "description": "Specify a unique name for the MSSP offer. This value will be provided by Difenda during the deployment."
             }
         },
-        "MSPOfferDescription": {
+        "difendaOfferDescription": {
             "type": "string",
             "metadata": {
                 "description": "Name of the Managed Service Provider offering. This value will be provided by Difenda during the deployment."
             }
         },
-        "managedByTenantId": {
+        "difendaByTenantId": {
             "type": "string",
             "metadata": {
                 "description": "Specify Difenda's Tenant ID. This value will be provided by Difenda during the deployment."
             }
         },
-        "authorizations": {
+        "delegations": {
             "type": "array",
             "metadata": {
                 "description": "Specify permissions array. This value will be provided by Difenda during the deployment."
@@ -34,8 +34,8 @@
         }              
     },
     "variables": {
-        "mspRegistrationName": "[guid(parameters('MSPOfferName'))]",
-        "mspAssignmentName": "[guid(parameters('MSPOfferName'))]"
+        "mspRegistrationName": "[guid(parameters('difendaOfferName'))]",
+        "mspAssignmentName": "[guid(parameters('difendaOfferName'))]"
     },
     "resources": [
         {
@@ -43,10 +43,10 @@
             "apiVersion": "2019-06-01",
             "name": "[variables('mspRegistrationName')]",
             "properties": {
-                "registrationDefinitionName": "[parameters('MSPOfferName')]",
-                "description": "[parameters('MSPOfferDescription')]",
-                "managedByTenantId": "[parameters('managedByTenantId')]",
-                "authorizations": "[parameters('authorizations')]"
+                "registrationDefinitionName": "[parameters('difendaOfferName')]",
+                "description": "[parameters('difendaOfferDescription')]",
+                "difendaByTenantId": "[parameters('difendaByTenantId')]",
+                "authorizations": "[parameters('delegations')]"
             }
         },
         {
@@ -78,13 +78,13 @@
         }
     ],
     "outputs": {
-        "MSPOfferName": {
+        "difendaOfferName": {
             "type": "string",
-            "value": "[concat('Managed by', ' ', parameters('MSPOfferName'))]"
+            "value": "[concat('Managed by', ' ', parameters('difendaOfferName'))]"
         },
         "authorizations": {
             "type": "array",
-            "value": "[parameters('authorizations')]"
+            "value": "[parameters('delegations')]"
         }
     }
 }
