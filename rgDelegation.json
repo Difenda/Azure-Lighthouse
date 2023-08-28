@@ -2,40 +2,40 @@
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "difendaOfferName": {
+        "OfferName": {
             "type": "string",
             "metadata": {
-                "description": "Specify a unique name for the MSSP offer. This value will be provided by Difenda during the deployment."
+                "description": "Specify a unique name for the Managing Tenant offer."
             }
         },
-        "difendaOfferDescription": {
+        "OfferDescription": {
             "type": "string",
             "metadata": {
-                "description": "Name of the Managed Service Provider offering. This value will be provided by Difenda during the deployment."
+                "description": "Provide a description for this delegation offer."
             }
         },
-        "difendaTenantId": {
+        "ManagingTenantId": {
             "type": "string",
             "metadata": {
-                "description": "Specify Difenda's Tenant ID. This value will be provided by Difenda during the deployment."
+                "description": "Specify Managing Tenant ID."
             }
         },
         "delegations": {
             "type": "array",
             "metadata": {
-                "description": "Specify permissions array. This value will be provided by Difenda during the deployment."
+                "description": "Specify permissions array."
             }
         },
         "resourceGroupName": {
             "type": "string",
             "metadata": {
-                "description": "Enter the name of the Resource Group containing the Sentinel resources in the customer tenant."
+                "description": "Enter the name of the Resource Group containing the resources in the Managed tenant."
             }
         }              
     },
     "variables": {
-        "mspRegistrationName": "[guid(parameters('difendaOfferName'))]",
-        "mspAssignmentName": "[guid(parameters('difendaOfferName'))]"
+        "mspRegistrationName": "[guid(parameters('OfferName'))]",
+        "mspAssignmentName": "[guid(parameters('OfferName'))]"
     },
     "resources": [
         {
@@ -43,9 +43,9 @@
             "apiVersion": "2019-06-01",
             "name": "[variables('mspRegistrationName')]",
             "properties": {
-                "registrationDefinitionName": "[parameters('difendaOfferName')]",
-                "description": "[parameters('difendaOfferDescription')]",
-                "managedByTenantId": "[parameters('difendaTenantId')]",
+                "registrationDefinitionName": "[parameters('OfferName')]",
+                "description": "[parameters('OfferDescription')]",
+                "managedByTenantId": "[parameters('ManagingTenantId')]",
                 "authorizations": "[parameters('delegations')]"
             }
         },
@@ -78,9 +78,9 @@
         }
     ],
     "outputs": {
-        "difendaOfferName": {
+        "OfferName": {
             "type": "string",
-            "value": "[concat('Managed by', ' ', parameters('difendaOfferName'))]"
+            "value": "[concat('Managed by', ' ', parameters('OfferName'))]"
         },
         "authorizations": {
             "type": "array",
